@@ -6,8 +6,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#f8f9fa] p-6">
       {/* Abstract background elements */}
-      <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#81dcc1]/10 blur-3xl" />
-      <div className="absolute -right-24 -bottom-24 h-96 w-96 rounded-full bg-[#5ec2a4]/10 blur-3xl" />
+      <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[#0FF7D0]/10 blur-3xl" />
+      <div className="absolute -right-24 -bottom-24 h-96 w-96 rounded-full bg-[#0FF7D0]/10 blur-3xl" />
       
       <div className="relative w-full max-w-md">
         <div className="mb-8 flex flex-col items-center text-center">
@@ -22,10 +22,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               />
             </div>
           </Link>
-          <div className="h-1 w-12 rounded-full bg-[#5ec2a4] mb-4" />
+          <div className="h-1 w-12 rounded-full bg-[#0FF7D0] mb-4" />
         </div>
 
-        <div className="overflow-hidden rounded-[32px] border border-[#5ec2a4]/20 bg-white p-8 shadow-soft backdrop-blur-sm sm:p-10">
+        <div className="overflow-hidden rounded-[32px] border border-[#0FF7D0]/20 bg-white p-8 shadow-soft backdrop-blur-sm sm:p-10">
           {children}
         </div>
         

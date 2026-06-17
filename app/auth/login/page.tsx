@@ -52,7 +52,7 @@ export default function LoginPage() {
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-[#262626]/60 ml-1">Email Address</label>
           <div className="relative group">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#5ec2a4] transition-colors">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#0FF7D0] transition-colors">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <input
@@ -60,7 +60,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#5ec2a4] focus:bg-white focus:ring-4 focus:ring-[#5ec2a4]/10"
+              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#0FF7D0] focus:bg-white focus:ring-4 focus:ring-[#0FF7D0]/10"
               placeholder="name@example.com"
             />
           </div>
@@ -69,10 +69,10 @@ export default function LoginPage() {
         <div className="space-y-2">
           <div className="flex justify-between items-center ml-1">
             <label className="text-xs font-bold uppercase tracking-wider text-[#262626]/60">Password</label>
-            <Link href="/auth/forgot-password" hidden className="text-[11px] text-[#5ec2a4] hover:underline font-bold">Forgot?</Link>
+            <Link href="/auth/forgot-password" hidden className="text-[11px] text-[#0FF7D0] hover:underline font-bold">Forgot?</Link>
           </div>
           <div className="relative group">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#5ec2a4] transition-colors">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#0FF7D0] transition-colors">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
             <input
@@ -80,7 +80,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#5ec2a4] focus:bg-white focus:ring-4 focus:ring-[#5ec2a4]/10"
+              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#0FF7D0] focus:bg-white focus:ring-4 focus:ring-[#0FF7D0]/10"
               placeholder="••••••••"
             />
           </div>
@@ -110,7 +110,7 @@ export default function LoginPage() {
       <div className="text-center">
         <p className="text-sm text-neutral-500">
           New to Parts Seekr?{' '}
-          <Link href="/auth/signup" className="font-bold text-[#5ec2a4] hover:text-[#4da98e] transition-colors underline-offset-4 hover:underline">
+          <Link href="/auth/signup" className="font-bold text-[#0FF7D0] hover:text-[#0CC6A6] transition-colors underline-offset-4 hover:underline">
             Create an account
           </Link>
         </p>

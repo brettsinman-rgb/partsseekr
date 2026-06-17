@@ -15,6 +15,7 @@ CREATE TABLE "PriceAlert" (
     "lastResultTitle" TEXT,
     "lastResultUrl" TEXT,
     "lastResultPrice" DOUBLE PRECISION,
+    "lastResultImage" TEXT,
 
     CONSTRAINT "PriceAlert_pkey" PRIMARY KEY ("id")
 );

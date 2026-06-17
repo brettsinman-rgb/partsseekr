@@ -30,7 +30,7 @@ export default function SortFilterBar({
   conditionOptions
 }: Props) {
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-[#5ec2a4] bg-white p-5 shadow-soft md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-4 rounded-2xl border border-[#0FF7D0] bg-white p-5 shadow-soft md:flex-row md:items-center md:justify-between">
       <div className="flex flex-wrap gap-2">
         {[
           { id: 'cheapest', label: 'Cheapest' },
@@ -42,8 +42,8 @@ export default function SortFilterBar({
             className={clsx(
               'rounded-full border px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.2em]',
               sortMode === option.id
-                ? 'border-[#81dcc1] bg-[#81dcc1] text-[#020617]'
-                : 'border-[#81dcc1]/30 text-[#020617] hover:border-[#81dcc1]/60'
+                ? 'border-[#0FF7D0] bg-[#0FF7D0] text-[#020617]'
+                : 'border-[#0FF7D0]/30 text-[#020617] hover:border-[#0FF7D0]/60'
             )}
           >
             {option.label}
@@ -56,7 +56,7 @@ export default function SortFilterBar({
           id="condition-pill-select"
           value={condition}
           onChange={(event) => setCondition(event.target.value)}
-          className="select-cta select-cta-pill rounded-full border border-[#81dcc1]/30 bg-white px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#020617] hover:border-[#81dcc1]/60"
+          className="select-cta select-cta-pill rounded-full border border-[#0FF7D0]/30 bg-white px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#020617] hover:border-[#0FF7D0]/60"
         >
           <option value="all">Condition: All</option>
           {conditionOptions.map((option) => (
@@ -72,7 +72,7 @@ export default function SortFilterBar({
           id="currency-pill-select"
           value={currency}
           onChange={(event) => setCurrency(event.target.value)}
-          className="select-cta select-cta-pill rounded-full border border-[#81dcc1]/30 bg-white px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#020617] hover:border-[#81dcc1]/60"
+          className="select-cta select-cta-pill rounded-full border border-[#0FF7D0]/30 bg-white px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#020617] hover:border-[#0FF7D0]/60"
         >
           <option value="all">Currency: All</option>
           {currencyOptions.map((option) => (
@@ -88,7 +88,7 @@ export default function SortFilterBar({
           {regionOptions.map((region) => {
             const checked = selectedRegions.includes(region.id);
             return (
-              <label key={region.id} className="flex items-center gap-2 rounded-full border border-[#81dcc1]/30 px-3 py-1">
+              <label key={region.id} className="flex items-center gap-2 rounded-full border border-[#0FF7D0]/30 px-3 py-1">
                 <input
                   type="checkbox"
                   checked={checked}
@@ -99,7 +99,7 @@ export default function SortFilterBar({
                       setSelectedRegions(selectedRegions.filter((value) => value !== region.id));
                     }
                   }}
-                  className="h-3 w-3 rounded border-[#81dcc1]/40 bg-white text-[#81dcc1] focus:ring-[#81dcc1]"
+                  className="h-3 w-3 rounded border-[#0FF7D0]/40 bg-white text-[#0FF7D0] focus:ring-[#0FF7D0]"
                 />
                 {region.label}
               </label>

@@ -102,7 +102,8 @@ export async function POST(request: Request) {
       status: 'active',
       lastResultTitle: lowest.title,
       lastResultUrl: lowest.productUrl,
-      lastResultPrice: lowest.price
+      lastResultPrice: lowest.price,
+      lastResultImage: lowest.image
     }
   });
 

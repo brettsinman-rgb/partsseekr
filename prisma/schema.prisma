@@ -89,6 +89,7 @@ model PriceAlert {
   lastResultTitle    String?
   lastResultUrl      String?
   lastResultPrice    Float?
+  lastResultImage    String?
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])

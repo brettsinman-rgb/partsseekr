@@ -17,19 +17,19 @@ export default function AutoBrandTicker() {
   const marqueeItems = [...AUTO_BRANDS, ...AUTO_BRANDS];
 
   return (
-    <section className="rounded-3xl border border-[#5ec2a4] bg-white/80 px-6 py-8 shadow-soft fade-up fade-up-delay-1">
+    <section className="rounded-3xl border border-[#0FF7D0] bg-white/80 px-6 py-8 shadow-soft fade-up fade-up-delay-1">
       <div className="mx-auto max-w-3xl text-center">
         <p className="display-font text-xl font-semibold text-[#262626] md:text-2xl">
-          Trusted by drivers across <span className="font-bold text-[#5ec2a4]">major auto brands</span>
+          Trusted by drivers across <span className="font-bold text-[#0FF7D0]">major auto brands</span>
         </p>
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-[#5ec2a4] bg-white/80 p-4">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-[#0FF7D0] bg-white/80 p-4">
         <div className="brand-ticker-track flex w-max items-center gap-4">
           {marqueeItems.map((brand, index) => (
             <div
               key={`${brand.name}-${index}`}
-              className="flex h-16 w-32 shrink-0 items-center justify-center rounded-xl border border-[#5ec2a4] bg-white px-3"
+              className="flex h-16 w-32 shrink-0 items-center justify-center rounded-xl border border-[#0FF7D0] bg-white px-3"
               title={brand.name}
             >
               <Image

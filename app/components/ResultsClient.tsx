@@ -188,13 +188,13 @@ export default function ResultsClient({ sessionId }: { sessionId: string }) {
 
   return (
     <main className="min-h-screen px-6 pb-16">
-      <div className="sticky top-0 z-20 border-b border-[#81dcc1]/20 bg-[#ebebe3] backdrop-blur">
+      <div className="sticky top-0 z-20 border-b border-[#0FF7D0]/20 bg-[#ebebe3] backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/"
               aria-label="Go to PartsSeekr homepage"
-              className="block h-14 w-14 overflow-hidden rounded-2xl border border-[#5ec2a4] bg-white shadow-sm"
+              className="block h-14 w-14 overflow-hidden rounded-2xl border border-[#0FF7D0] bg-white shadow-sm"
             >
               <Image
                 src="/logos/PS-Favicon.png"
@@ -252,14 +252,14 @@ export default function ResultsClient({ sessionId }: { sessionId: string }) {
         />
 
         {isFailed ? (
-          <div className="mt-10 rounded-3xl border border-dashed border-[#5ec2a4] bg-white p-10 text-center">
+          <div className="mt-10 rounded-3xl border border-dashed border-[#0FF7D0] bg-white p-10 text-center">
             <h2 className="text-lg font-semibold text-[#262626]">Search provider unavailable</h2>
             <p className="mt-2 text-sm text-[#262626]/70">
               Please try again in a moment or upload a different photo.
             </p>
           </div>
         ) : isEmpty ? (
-          <div className="mt-10 rounded-3xl border border-dashed border-[#5ec2a4] bg-white p-10 text-center fade-up">
+          <div className="mt-10 rounded-3xl border border-dashed border-[#0FF7D0] bg-white p-10 text-center fade-up">
             <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-[#ebebe3]">
               <svg
                 width="48"
@@ -269,9 +269,9 @@ export default function ResultsClient({ sessionId }: { sessionId: string }) {
                 xmlns="http://www.w3.org/2000/svg"
                 aria-hidden="true"
               >
-                <rect x="8" y="12" width="32" height="24" rx="6" stroke="#81dcc1" strokeWidth="2" />
-                <circle cx="24" cy="24" r="7" stroke="#81dcc1" strokeWidth="2" />
-                <path d="M16 12L20 8H28L32 12" stroke="#81dcc1" strokeWidth="2" strokeLinecap="round" />
+                <rect x="8" y="12" width="32" height="24" rx="6" stroke="#0FF7D0" strokeWidth="2" />
+                <circle cx="24" cy="24" r="7" stroke="#0FF7D0" strokeWidth="2" />
+                <path d="M16 12L20 8H28L32 12" stroke="#0FF7D0" strokeWidth="2" strokeLinecap="round" />
               </svg>
             </div>
             <h2 className="text-lg font-semibold text-[#262626]">No exact matches found</h2>

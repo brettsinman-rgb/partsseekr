@@ -190,7 +190,7 @@ export default async function Home() {
                 Parts Seekr discovers the best pricing instantly.
               </p>
               <p className="max-w-2xl text-sm font-normal leading-6 text-[#262626]/70 md:text-[15px]">
-                Search by part name, OEM number, or vehicle description. <span className="font-bold text-[#5ec2a4]">Parts Seekr</span> scans verified listings and sorts the best prices by value.
+                Search by part name, OEM number, or vehicle description. <span className="font-bold text-[#0FF7D0]">Parts Seekr</span> scans verified listings and sorts the best prices by value.
               </p>
             </div>
             <div className="relative mt-6">
@@ -203,7 +203,7 @@ export default async function Home() {
                 Save searches, track prices and access results across all devices.{' '}
                 <Link
                   href="/auth/signup"
-                  className="font-medium text-[#262626] underline decoration-[#5ec2a4]/45 underline-offset-4 transition hover:text-[#1f8f73] hover:decoration-[#5ec2a4]"
+                  className="font-medium text-[#262626] underline decoration-[#0FF7D0]/45 underline-offset-4 transition hover:text-[#0CC6A6] hover:decoration-[#0FF7D0]"
                 >
                   Create a free account →
                 </Link>
@@ -211,7 +211,7 @@ export default async function Home() {
             </section>
           )}
           {user && previousSearches.length > 0 && (
-            <section className="rounded-3xl border border-[#5ec2a4] bg-white/80 px-6 py-5 shadow-soft fade-up fade-up-delay-1">
+            <section className="rounded-3xl border border-[#0FF7D0] bg-white/80 px-6 py-5 shadow-soft fade-up fade-up-delay-1">
               <div className="mb-4 flex items-end justify-between gap-4">
                 <div>
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#262626]/70">
@@ -226,7 +226,7 @@ export default async function Home() {
                 {previousSearches.map((item) => (
                   <article
                     key={item.id}
-                    className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#5ec2a4] bg-white"
+                    className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#0FF7D0] bg-white"
                   >
                     <div className="relative h-32 w-full bg-white">
                       <Image
@@ -250,7 +250,7 @@ export default async function Home() {
                         href={item.productUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-auto inline-flex items-center justify-center rounded-full bg-[#81dcc1]/90 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#5ec2a4]"
+                        className="mt-auto inline-flex items-center justify-center rounded-full bg-[#0FF7D0]/90 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-[#0FF7D0]"
                       >
                         View listing
                       </a>
@@ -260,10 +260,10 @@ export default async function Home() {
               </div>
             </section>
           )}
-          <div className="rounded-3xl border border-[#5ec2a4] bg-white/80 px-6 py-10 shadow-soft fade-up fade-up-delay-1">
+          <div className="rounded-3xl border border-[#0FF7D0] bg-white/80 px-6 py-10 shadow-soft fade-up fade-up-delay-1">
             <div className="mx-auto max-w-3xl text-center">
               <p className="display-font text-xl font-semibold text-[#262626] md:text-2xl">
-                We scour <span className="font-bold text-[#5ec2a4]">hundreds of parts from trusted sellers</span>, so you can get back to chasing that oil leak.
+                We scour <span className="font-bold text-[#0FF7D0]">hundreds of parts from trusted sellers</span>, so you can get back to chasing that oil leak.
               </p>
             </div>
           </div>

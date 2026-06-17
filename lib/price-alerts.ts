@@ -9,6 +9,7 @@ export type LowestPriceMatch = {
   currency: string;
   title: string;
   productUrl: string;
+  image?: string | null;
   result: PriceComparableResult;
 };
 
@@ -18,6 +19,7 @@ type PriceComparableResult = {
   currency: string;
   shippingPrice?: number | null;
   productUrl: string;
+  image?: string | null;
 };
 
 function enabledTextProviders() {
@@ -49,6 +51,7 @@ export function findLowestResult<T extends PriceComparableResult>(results: T[]):
     currency: cheapest.currency,
     title: cheapest.title,
     productUrl: cheapest.productUrl,
+    image: cheapest.image,
     result: cheapest
   };
 }
@@ -113,6 +116,7 @@ export async function checkPriceAlert(alertId: string) {
       lastResultTitle: lowest.title,
       lastResultUrl: lowest.productUrl,
       lastResultPrice: lowest.price,
+      lastResultImage: lowest.image,
       status: triggered ? 'triggered' : alert.status,
       triggeredAt: triggered ? now : alert.triggeredAt
     }

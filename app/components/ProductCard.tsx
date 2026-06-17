@@ -65,7 +65,7 @@ export default function ProductCard({
     <div
       className={[
         'group flex h-full flex-col overflow-hidden rounded-3xl border-2 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-lg',
-        isBest ? 'best-price-glow border-[#5ec2a4]' : 'border-[#5ec2a4]'
+        isBest ? 'best-price-glow border-[#0FF7D0]' : 'border-[#0FF7D0]'
       ].join(' ')}
     >
       <div className="relative h-48 w-full bg-white">
@@ -77,7 +77,7 @@ export default function ProductCard({
           <h3 className="mt-2 text-sm font-semibold text-[#262626] line-clamp-2">{result.title}</h3>
           {renderStars(result.rating)}
         </div>
-        <div className="rounded-2xl border border-[#5ec2a4] bg-[#ebebe3] p-3 text-xs text-[#262626]/70">
+        <div className="rounded-2xl border border-[#0FF7D0] bg-[#ebebe3] p-3 text-xs text-[#262626]/70">
           <div className="flex items-center justify-between">
             <span className="uppercase tracking-[0.2em] text-[10px] text-[#262626]/70">Price</span>
             <span className="font-semibold text-[#262626]">{formatPrice(result.price, result.currency)}</span>
@@ -102,7 +102,7 @@ export default function ProductCard({
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackClick(sessionId, result.id)}
-          className="mt-auto inline-flex items-center justify-center rounded-full bg-[#81dcc1]/90 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition group-hover:bg-[#5ec2a4]"
+          className="mt-auto inline-flex items-center justify-center rounded-full bg-[#0FF7D0]/90 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition group-hover:bg-[#0FF7D0]"
         >
           Buy now
         </a>

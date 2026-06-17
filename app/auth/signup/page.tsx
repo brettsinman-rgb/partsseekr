@@ -28,7 +28,7 @@ export default function SignupPage() {
   if (success) {
     return (
       <div className="text-center space-y-6 fade-up">
-        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#81dcc1]/20 text-[#5ec2a4]">
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#0FF7D0]/20 text-[#0FF7D0]">
           <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
         <div className="space-y-2">
@@ -67,14 +67,14 @@ export default function SignupPage() {
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-[#262626]/60 ml-1">Email Address</label>
           <div className="relative group">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#5ec2a4] transition-colors">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#0FF7D0] transition-colors">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <input
               name="email"
               type="email"
               required
-              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#5ec2a4] focus:bg-white focus:ring-4 focus:ring-[#5ec2a4]/10"
+              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#0FF7D0] focus:bg-white focus:ring-4 focus:ring-[#0FF7D0]/10"
               placeholder="name@example.com"
             />
           </div>
@@ -83,7 +83,7 @@ export default function SignupPage() {
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-[#262626]/60 ml-1">Password</label>
           <div className="relative group">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#5ec2a4] transition-colors">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-[#0FF7D0] transition-colors">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             </div>
             <input
@@ -91,7 +91,7 @@ export default function SignupPage() {
               type="password"
               required
               minLength={6}
-              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#5ec2a4] focus:bg-white focus:ring-4 focus:ring-[#5ec2a4]/10"
+              className="w-full rounded-2xl border border-neutral-200 bg-neutral-50 p-4 pl-11 outline-none transition-all focus:border-[#0FF7D0] focus:bg-white focus:ring-4 focus:ring-[#0FF7D0]/10"
               placeholder="Min. 6 characters"
             />
           </div>
@@ -100,7 +100,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={loading}
-          className="group relative w-full overflow-hidden rounded-2xl bg-[#5ec2a4] p-4 font-bold text-white transition-all hover:bg-[#4da98e] disabled:opacity-50 active:scale-[0.98] shadow-md hover:shadow-lg"
+          className="group relative w-full overflow-hidden rounded-2xl bg-[#0FF7D0] p-4 font-bold text-white transition-all hover:bg-[#0CC6A6] disabled:opacity-50 active:scale-[0.98] shadow-md hover:shadow-lg"
         >
           <div className="relative z-10 flex items-center justify-center gap-2">
             {loading ? (
@@ -121,7 +121,7 @@ export default function SignupPage() {
       <div className="text-center">
         <p className="text-sm text-neutral-500">
           Already have an account?{' '}
-          <Link href="/auth/login" className="font-bold text-[#5ec2a4] hover:text-[#4da98e] transition-colors underline-offset-4 hover:underline">
+          <Link href="/auth/login" className="font-bold text-[#0FF7D0] hover:text-[#0CC6A6] transition-colors underline-offset-4 hover:underline">
             Sign in instead
           </Link>
         </p>

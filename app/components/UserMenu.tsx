@@ -34,9 +34,9 @@ export default function UserMenu() {
       <div className="flex items-center gap-2 sm:gap-4 animate-fade-in">
         <Link 
           href="/auth/login" 
-          className="group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 text-[11px] sm:text-sm font-bold text-[#262626] transition-all rounded-full border border-[#262626]/10 hover:border-[#5ec2a4]/40 hover:bg-[#5ec2a4]/5 active:scale-95 shadow-sm"
+          className="group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 text-[11px] sm:text-sm font-bold text-[#262626] transition-all rounded-full border border-[#262626]/10 hover:border-[#0FF7D0]/40 hover:bg-[#0FF7D0]/5 active:scale-95 shadow-sm"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400 group-hover:text-[#5ec2a4] transition-colors sm:w-[18px] sm:h-[18px]"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400 group-hover:text-[#0FF7D0] transition-colors sm:w-[18px] sm:h-[18px]"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <span className="hidden xs:inline">Sign In</span>
           <span className="xs:hidden">Login</span>
         </Link>
@@ -57,26 +57,26 @@ export default function UserMenu() {
     <div className="flex items-center gap-4">
       <Link 
         href="/history" 
-        className="group hidden sm:flex items-center gap-2 text-sm font-bold text-[#262626] hover:text-[#5ec2a4] transition-all"
+        className="group hidden sm:flex items-center gap-2 text-sm font-bold text-[#262626] hover:text-[#0FF7D0] transition-all"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:rotate-[-10deg] transition-transform"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
         <span>My History</span>
       </Link>
       <div className="relative group">
-        <button className="flex items-center gap-2 rounded-full border border-[#5ec2a4]/20 bg-white p-1 pr-3 hover:border-[#5ec2a4]/50 transition-all shadow-sm">
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#81dcc1] to-[#5ec2a4] flex items-center justify-center text-white font-black text-xs shadow-inner">
+        <button className="flex items-center gap-2 rounded-full border border-[#0FF7D0]/20 bg-white p-1 pr-3 hover:border-[#0FF7D0]/50 transition-all shadow-sm">
+          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#0FF7D0] to-[#0FF7D0] flex items-center justify-center text-white font-black text-xs shadow-inner">
             {user.email?.[0].toUpperCase()}
           </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400 group-hover:text-[#5ec2a4] transition-colors"><polyline points="6 9 12 15 18 9"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-400 group-hover:text-[#0FF7D0] transition-colors"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         
-        <div className="absolute right-0 top-full mt-3 w-56 bg-white border border-[#5ec2a4]/10 rounded-2xl shadow-xl py-2 invisible group-hover:visible transition-all opacity-0 group-hover:opacity-100 z-50 translate-y-2 group-hover:translate-y-0">
+        <div className="absolute right-0 top-full mt-3 w-56 bg-white border border-[#0FF7D0]/10 rounded-2xl shadow-xl py-2 invisible group-hover:visible transition-all opacity-0 group-hover:opacity-100 z-50 translate-y-2 group-hover:translate-y-0">
           <div className="px-4 py-3 border-b border-neutral-50 mb-1">
             <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Signed in as</p>
             <p className="text-xs font-semibold text-[#262626] truncate mt-0.5">{user.email}</p>
           </div>
           
-          <Link href="/history" className="sm:hidden flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-[#81dcc1]/10 hover:text-[#5ec2a4] transition-colors font-medium">
+          <Link href="/history" className="sm:hidden flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-[#0FF7D0]/10 hover:text-[#0FF7D0] transition-colors font-medium">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
             Search History
           </Link>

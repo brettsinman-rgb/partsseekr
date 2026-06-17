@@ -217,7 +217,7 @@ export default function UploadCapture() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="e.g. Audi A6 hydraulic pump or 4Z7323167"
-              className="h-11 w-full rounded-[22px] bg-white px-4 text-[15px] font-medium text-[#262626] shadow-[0_10px_32px_-28px_rgba(38,38,38,0.7)] ring-1 ring-black/10 outline-none transition placeholder:font-normal placeholder:text-[#262626]/50 focus:shadow-[0_16px_42px_-32px_rgba(94,194,164,0.8)] focus:ring-2 focus:ring-[#5ec2a4]/50"
+              className="h-11 w-full rounded-[22px] bg-white px-4 text-[15px] font-medium text-[#262626] shadow-[0_10px_32px_-28px_rgba(38,38,38,0.7)] ring-1 ring-black/10 outline-none transition placeholder:font-normal placeholder:text-[#262626]/50 focus:shadow-[0_16px_42px_-32px_rgba(15,247,208,0.8)] focus:ring-2 focus:ring-[#0FF7D0]/50"
             />
           </label>
 
@@ -227,7 +227,7 @@ export default function UploadCapture() {
               <select
                 value={manufacturer}
                 onChange={(event) => setManufacturer(event.target.value)}
-                className="select-cta h-11 w-full rounded-[22px] bg-white px-4 text-sm font-medium text-[#262626] shadow-sm ring-1 ring-black/10 outline-none transition focus:ring-2 focus:ring-[#5ec2a4]/40"
+                className="select-cta h-11 w-full rounded-[22px] bg-white px-4 text-sm font-medium text-[#262626] shadow-sm ring-1 ring-black/10 outline-none transition focus:ring-2 focus:ring-[#0FF7D0]/40"
               >
                 {manufacturerGroups.map((group) => (
                   <optgroup key={group.label} label={group.label}>
@@ -241,7 +241,7 @@ export default function UploadCapture() {
               </select>
             </label>
             <button
-              className="inline-flex h-11 w-full items-center justify-center rounded-[22px] bg-[#111111] px-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_14px_28px_-18px_rgba(17,17,17,0.95)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-[#0b0b0b] enabled:hover:shadow-[0_16px_34px_-20px_rgba(94,194,164,0.65)] enabled:hover:ring-2 enabled:hover:ring-[#5ec2a4]/35 disabled:cursor-not-allowed disabled:bg-[#111111]/35 disabled:shadow-none md:w-auto md:min-w-[210px]"
+              className="inline-flex h-11 w-full items-center justify-center rounded-[22px] bg-[#111111] px-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_14px_28px_-18px_rgba(17,17,17,0.95)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-[#0b0b0b] enabled:hover:shadow-[0_16px_34px_-20px_rgba(15,247,208,0.65)] enabled:hover:ring-2 enabled:hover:ring-[#0FF7D0]/35 disabled:cursor-not-allowed disabled:bg-[#111111]/35 disabled:shadow-none md:w-auto md:min-w-[210px]"
               onClick={handleSubmit}
               disabled={!isReady}
             >
@@ -252,7 +252,7 @@ export default function UploadCapture() {
 
         <div className="flex min-w-0 flex-col gap-0.5">
           <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#262626]/70">SEARCH BY PHOTO</span>
-          <label className="inline-flex h-11 w-full cursor-pointer items-center justify-center rounded-[22px] bg-white px-4 text-xs font-medium uppercase tracking-[0.16em] text-[#262626] shadow-sm ring-1 ring-black/10 transition hover:bg-[#81dcc1]/10 hover:text-[#1f8f73] hover:ring-[#5ec2a4]/35">
+          <label className="inline-flex h-11 w-full cursor-pointer items-center justify-center rounded-[22px] bg-white px-4 text-xs font-medium uppercase tracking-[0.16em] text-[#262626] shadow-sm ring-1 ring-black/10 transition hover:bg-[#0FF7D0]/10 hover:text-[#0CC6A6] hover:ring-[#0FF7D0]/35">
             Upload
             <input
               type="file"

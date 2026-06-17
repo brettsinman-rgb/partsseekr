@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 
 type PriceAlertItem = {
@@ -12,6 +13,7 @@ type PriceAlertItem = {
   status: string;
   createdAt: Date | string;
   lastCheckedAt?: Date | string | null;
+  lastResultImage?: string | null;
 };
 
 function formatPrice(value: number | null | undefined, currency: string) {
@@ -30,6 +32,27 @@ function formatPrice(value: number | null | undefined, currency: string) {
 function formatDate(value?: Date | string | null) {
   if (!value) return 'Not checked yet';
   return new Date(value).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function normalizeImageUrl(url?: string | null) {
+  if (!url) return '/logos/PS-Favicon.png';
+  if (url.startsWith('http')) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.pathname === '/placeholder.svg' || parsed.pathname.startsWith('/uploads/')) {
+        return parsed.pathname;
+      }
+    } catch {
+      return url;
+    }
+  }
+  return url;
+}
+
+function statusClass(status: string) {
+  if (status === 'triggered') return 'bg-[#111111] text-white';
+  if (status === 'paused') return 'bg-[#262626]/8 text-[#262626]/60';
+  return 'bg-[#0FF7D0]/18 text-[#0CC6A6]';
 }
 
 export default function PriceAlertsPanel({ alerts }: { alerts: PriceAlertItem[] }) {
@@ -53,56 +76,67 @@ export default function PriceAlertsPanel({ alerts }: { alerts: PriceAlertItem[] 
   };
 
   return (
-    <section className="mb-10 rounded-[32px] border border-[#5ec2a4]/10 bg-white p-5 shadow-sm">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <section className="mb-12 overflow-hidden rounded-[28px] border border-[#0FF7D0]/25 bg-[#edfdf8] p-4 shadow-[0_22px_70px_-55px_rgba(17,17,17,0.55)] sm:p-5">
+      <div className="flex flex-col gap-2 border-b border-[#0CC6A6]/10 pb-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#5ec2a4]">Price Alerts</p>
-          <h2 className="mt-1 text-2xl font-bold text-[#262626]">Watched searches</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#0CC6A6]">Price Alerts</p>
+          <h2 className="mt-1 text-2xl font-bold tracking-tight text-[#111111]">Watched Searches</h2>
         </div>
-        <p className="text-sm font-medium text-neutral-500">{items.length} active or saved alerts</p>
+        <p className="text-sm font-medium text-[#262626]/55">{items.length} saved watchlist items</p>
       </div>
 
       {items.length === 0 ? (
-        <p className="mt-5 rounded-2xl bg-[#f8f9fa] p-4 text-sm font-medium text-neutral-500">
+        <div className="mt-4 rounded-[22px] bg-white/70 p-4 text-sm font-medium text-[#262626]/55 ring-1 ring-white">
           Set a price alert from a search results page to watch for cheaper matching parts.
-        </p>
+        </div>
       ) : (
-        <div className="mt-5 grid gap-3">
+        <div className="mt-4 grid gap-3">
           {items.map((alert) => (
-            <div key={alert.id} className="rounded-2xl bg-[#f8f9fa] p-4">
-              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <article key={alert.id} className="rounded-[22px] bg-white/82 p-3 shadow-sm ring-1 ring-white/80">
+              <div className="grid gap-3 sm:grid-cols-[76px_minmax(0,1fr)_auto] sm:items-center">
+                <div className="relative h-[76px] w-[76px] overflow-hidden rounded-[18px] bg-[#f8f9f6] ring-1 ring-black/5">
+                  <Image
+                    src={normalizeImageUrl(alert.lastResultImage)}
+                    alt={alert.searchQuery}
+                    fill
+                    sizes="76px"
+                    className="object-cover"
+                    unoptimized
+                  />
+                </div>
+
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-[#81dcc1]/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#1f8f73]">
+                    <span className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] ${statusClass(alert.status)}`}>
                       {alert.status}
                     </span>
-                    <span className="text-xs font-medium text-neutral-400">Last checked: {formatDate(alert.lastCheckedAt)}</span>
+                    <span className="text-xs font-medium text-[#262626]/45">Checked: {formatDate(alert.lastCheckedAt)}</span>
                   </div>
-                  <h3 className="mt-2 truncate text-base font-bold text-[#262626]">{alert.searchQuery}</h3>
-                  <div className="mt-2 flex flex-wrap gap-4 text-xs font-semibold text-neutral-500">
+                  <h3 className="mt-2 truncate text-base font-bold text-[#111111]">{alert.searchQuery}</h3>
+                  <div className="mt-2 grid gap-1 text-xs font-semibold text-[#262626]/58 sm:grid-cols-2">
                     <span>Current lowest: {formatPrice(alert.currentLowestPrice, alert.currency)}</span>
                     <span>Target: {formatPrice(alert.targetPrice, alert.currency)}</span>
-                    {alert.manufacturer ? <span>Manufacturer: {alert.manufacturer}</span> : null}
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
+
+                <div className="flex gap-2 sm:flex-col sm:items-stretch">
                   <button
                     type="button"
                     onClick={() => updateStatus(alert.id, alert.status === 'active' ? 'paused' : 'active')}
-                    className="rounded-full border border-[#262626]/15 bg-white px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#262626] transition hover:border-[#5ec2a4]/50"
+                    className="h-9 flex-1 rounded-full border border-[#262626]/10 bg-white px-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[#262626] transition hover:border-[#0FF7D0]/70 hover:bg-[#0FF7D0]/10 sm:flex-none"
                   >
                     {alert.status === 'active' ? 'Pause' : 'Resume'}
                   </button>
                   <button
                     type="button"
                     onClick={() => removeAlert(alert.id)}
-                    className="rounded-full bg-[#262626] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-red-600"
+                    className="h-9 flex-1 rounded-full bg-[#111111] px-4 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-red-600 sm:flex-none"
                   >
                     Remove
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       )}
