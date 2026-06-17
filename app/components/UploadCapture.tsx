@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import AdSlot from './AdSlot';
 
 export default function UploadCapture() {
   const router = useRouter();
@@ -208,14 +207,53 @@ export default function UploadCapture() {
   };
 
   return (
-    <div className="rounded-3xl border border-[#5ec2a4] bg-white/80 p-4 sm:p-6 shadow-soft">
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-        <div className="flex flex-col gap-4">
-          <label className="inline-flex cursor-pointer flex-col items-start gap-2">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#262626]">Upload or capture</span>
-            <span className="inline-flex items-center justify-center rounded-full bg-[#81dcc1]/90 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-[#5ec2a4]">
-              Choose file
-            </span>
+    <div className="rounded-[24px] bg-[#f8f9f6] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_18px_55px_-42px_rgba(38,38,38,0.8)] sm:p-4 lg:p-5">
+      <div className="flex flex-col gap-3.5 lg:grid lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start">
+        <div className="flex min-w-0 flex-col gap-2.5">
+          <label className="flex flex-col gap-1">
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[#262626]/60">PART NAME OR OEM NUMBER</span>
+            <input
+              type="text"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="e.g. Audi A6 hydraulic pump or 4Z7323167"
+              className="h-[58px] w-full rounded-[30px] bg-white px-5 text-[15px] font-normal text-[#262626] shadow-[0_12px_40px_-30px_rgba(38,38,38,0.7)] ring-1 ring-black/10 outline-none transition placeholder:font-normal placeholder:text-[#262626]/35 focus:shadow-[0_18px_48px_-32px_rgba(94,194,164,0.8)] focus:ring-2 focus:ring-[#5ec2a4]/50 sm:text-base"
+            />
+          </label>
+
+          <div className="grid gap-2.5 md:grid-cols-[minmax(0,360px)_auto] md:items-end md:justify-start">
+            <label className="flex min-w-0 flex-col gap-1 md:w-[360px]">
+              <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#262626]/50">Manufacturer</span>
+              <select
+                value={manufacturer}
+                onChange={(event) => setManufacturer(event.target.value)}
+                className="select-cta h-[58px] w-full rounded-[30px] bg-white px-5 text-sm font-normal text-[#262626] shadow-sm ring-1 ring-black/10 outline-none transition focus:ring-2 focus:ring-[#5ec2a4]/40"
+              >
+                {manufacturerGroups.map((group) => (
+                  <optgroup key={group.label} label={group.label}>
+                    {group.options.map((brand) => (
+                      <option key={brand} value={brand}>
+                        {brand}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </label>
+            <button
+              className="inline-flex h-[58px] w-full items-center justify-center rounded-[30px] bg-[#262626] px-5 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_16px_32px_-18px_rgba(38,38,38,0.9)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-black enabled:hover:shadow-[0_20px_40px_-20px_rgba(38,38,38,0.95)] disabled:cursor-not-allowed disabled:bg-[#262626]/35 disabled:shadow-none md:w-auto md:min-w-[210px]"
+              onClick={handleSubmit}
+              disabled={!isReady}
+            >
+              {loading ? 'Searching...' : 'Find best prices'}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex min-w-0 flex-col gap-1">
+          <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#262626]/60">SEARCH BY PHOTO</span>
+          <label className="inline-flex h-[58px] w-full cursor-pointer items-center justify-center rounded-[30px] bg-white px-5 text-xs font-medium uppercase tracking-[0.16em] text-[#262626] shadow-sm ring-1 ring-black/10 transition hover:bg-[#81dcc1]/10 hover:text-[#1f8f73] hover:ring-[#5ec2a4]/35">
+            Upload
             <input
               type="file"
               accept="image/png,image/jpeg,image/jpg,image/webp"
@@ -223,75 +261,25 @@ export default function UploadCapture() {
               onChange={handleFileChange}
               className="sr-only"
             />
-            <span className="text-xs text-[#262626]/70 md:hidden">
-              {fileName || 'No file chosen'}
-            </span>
           </label>
-          <label className="flex flex-col gap-2">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#262626]">Search parts or add OEM part number</span>
-            <input
-              type="text"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="e.g. 0K2A1-33-28ZA or ACDelco 41-162"
-              className="w-full rounded-2xl border border-[#81dcc1]/30 bg-white px-4 py-3 text-sm text-[#262626] placeholder:text-[#262626]/40"
-            />
-          </label>
-          <label className="flex flex-col gap-2">
-            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#262626]">Vehicle manufacturer (optional)</span>
-            <select
-              value={manufacturer}
-              onChange={(event) => setManufacturer(event.target.value)}
-              className="select-cta w-full rounded-2xl border border-[#81dcc1]/30 bg-white px-4 py-3 text-sm text-[#262626]"
-            >
-              {manufacturerGroups.map((group) => (
-                <optgroup key={group.label} label={group.label}>
-                  {group.options.map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </label>
-          <button
-            className="mt-4 inline-flex w-full max-w-[380px] items-center justify-center rounded-full bg-[#81dcc1] px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white transition enabled:hover:bg-[#5ec2a4] disabled:cursor-not-allowed disabled:bg-[#81dcc1]/65"
-            onClick={handleSubmit}
-            disabled={!isReady}
-          >
-            {loading ? 'Searching...' : 'Find best prices'}
-          </button>
-        </div>
-        <div className="flex flex-col items-center gap-4 lg:items-end">
-          <div className="w-full max-w-[380px] overflow-hidden rounded-2xl border border-[#5ec2a4] bg-white">
-            {preview ? (
+          {preview && (
+            <div className="mt-2 overflow-hidden rounded-2xl bg-[#fbfcfa] ring-1 ring-black/5">
               <Image
                 src={preview}
                 alt="Preview"
-                width={380}
-                height={340}
-                sizes="(max-width: 380px) 100vw, 380px"
+                width={300}
+                height={150}
+                sizes="(max-width: 1024px) 100vw, 300px"
                 unoptimized
-                className="aspect-[380/340] w-full object-contain bg-white"
+                className="aspect-[2/1] w-full object-contain bg-white"
               />
-            ) : (
-              <div className="flex aspect-[380/340] w-full items-center justify-center text-center bg-white text-xs uppercase tracking-[0.2em] text-slate-400">
-                No image selected
-              </div>
-            )}
-          </div>
-          <AdSlot
-            size="320x100"
-            mobileSize="320x100"
-            placement="home-upload-inline"
-            align="left"
-            className="mt-2 max-w-[320px]"
-          />
+            </div>
+          )}
+          {fileName && <p className="truncate text-xs font-normal text-[#262626]/50">{fileName}</p>}
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[#262626]/70">
-        <span>Tips: Use a clear photo and include the OEM part number on packaging when possible.</span>
+      <div className="mt-3 flex flex-wrap items-center gap-3 text-xs font-normal text-[#262626]/50">
+        <span>Tip: Include the OEM number, fitment, or upload a clear part photo when available.</span>
       </div>
       {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
     </div>
