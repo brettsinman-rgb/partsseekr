@@ -156,7 +156,14 @@ export default function UploadCapture() {
     }
   ];
 
-  const isReady = useMemo(() => !loading && (Boolean(file) || query.trim().length > 0), [file, query, loading]);
+  const hasSearchInput = useMemo(() => Boolean(file) || query.trim().length > 0, [file, query]);
+  const ctaCopy = loading
+    ? 'Searching...'
+    : file
+      ? 'Find Matching Parts'
+      : query.trim()
+        ? 'Search Parts'
+        : 'Find Best Prices';
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selected = event.target.files?.[0] ?? null;
@@ -206,9 +213,16 @@ export default function UploadCapture() {
     }
   };
 
+  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!loading) {
+      void handleSubmit();
+    }
+  };
+
   return (
     <div className="rounded-[24px] bg-[#f8f9f6] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_18px_55px_-42px_rgba(38,38,38,0.8)] sm:p-4 lg:p-5">
-      <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start">
+      <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 lg:grid lg:grid-cols-[minmax(0,1fr)_260px] lg:items-start">
         <div className="flex min-w-0 flex-col gap-2">
           <label className="flex flex-col gap-0.5">
             <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-[#262626]/70">PART NAME OR OEM NUMBER</span>
@@ -241,11 +255,16 @@ export default function UploadCapture() {
               </select>
             </label>
             <button
-              className="inline-flex h-11 w-full items-center justify-center rounded-[22px] bg-[#111111] px-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_14px_28px_-18px_rgba(17,17,17,0.95)] transition enabled:hover:-translate-y-0.5 enabled:hover:bg-[#0b0b0b] enabled:hover:shadow-[0_16px_34px_-20px_rgba(15,247,208,0.65)] enabled:hover:ring-2 enabled:hover:ring-[#0FF7D0]/35 disabled:cursor-not-allowed disabled:bg-[#111111]/35 disabled:shadow-none md:w-auto md:min-w-[210px]"
-              onClick={handleSubmit}
-              disabled={!isReady}
+              type="submit"
+              className={[
+                'inline-flex h-11 w-full items-center justify-center rounded-[22px] px-4 text-xs font-bold uppercase tracking-[0.18em] transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#0FF7D0]/55 focus:ring-offset-2 focus:ring-offset-[#f8f9f6] disabled:cursor-wait disabled:opacity-70 md:w-auto md:min-w-[210px]',
+                hasSearchInput
+                  ? 'bg-[#111111] text-white shadow-[0_14px_28px_-18px_rgba(17,17,17,0.95)] enabled:hover:-translate-y-0.5 enabled:hover:bg-[#0b0b0b] enabled:hover:shadow-[0_16px_34px_-20px_rgba(15,247,208,0.65)] enabled:hover:ring-2 enabled:hover:ring-[#0FF7D0]/35'
+                  : 'bg-[#0FF7D0] text-[#07181b] shadow-sm enabled:hover:bg-[#0CC6A6] enabled:hover:shadow-[0_12px_28px_-22px_rgba(15,247,208,0.85)]'
+              ].join(' ')}
+              disabled={loading}
             >
-              {loading ? 'Searching...' : 'Find best prices'}
+              {ctaCopy}
             </button>
           </div>
         </div>
@@ -277,7 +296,7 @@ export default function UploadCapture() {
           )}
           {fileName && <p className="truncate text-xs font-normal text-[#262626]/50">{fileName}</p>}
         </div>
-      </div>
+      </form>
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs font-normal text-[#262626]/50">
         <span>Tip: Include the OEM number, fitment, or upload a clear part photo when available.</span>
       </div>
