@@ -1,7 +1,12 @@
 import type { NormalizedResult, ProviderCandidate } from './providers/types';
+import { extractPartNumbers } from './search-query';
 
 function normalizeTitle(title: string) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+function normalizeAlnum(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 function jaccardSimilarity(a: string, b: string): number {
@@ -133,6 +138,7 @@ function getRelevanceScore(title: string, productUrl: string, query?: string): n
     }
   }
   const partNumberRegex = /\b([A-Z0-9]{3,}[ -][A-Z0-9]{3,}[ -][A-Z0-9]{2,})\b|\b[A-Z0-9]{7,}\b/i;
+  const compactTitle = normalizeAlnum(title);
   const looksLikePartNumber = partNumberRegex.test(normalizedTitle);
   if (looksLikePartNumber) {
     score += 0.4;
@@ -152,15 +158,16 @@ function getRelevanceScore(title: string, productUrl: string, query?: string): n
 
   // 6. THE "IRON-CLAD" RULE:
   // If we have a part number query, we MUST have a match for the part number in the title.
-  if (query && partNumberRegex.test(query)) {
-    const partNumber = query.match(partNumberRegex)?.[0];
-    if (partNumber && !normalizedTitle.includes(partNumber.toLowerCase().replace(/[^a-z0-9]/g, ''))) {
-        return 0; // Reject if part number not in title
+  const queryPartNumbers = query ? extractPartNumbers(query) : [];
+  if (queryPartNumbers.length > 0) {
+    if (!queryPartNumbers.some((partNumber) => compactTitle.includes(partNumber.toLowerCase()))) {
+      return 0; // Reject if part number not in title
     }
-    // Also require some automotive context if part number not found in title (to be safe)
+    score += 0.45;
+    // Require automotive context unless the title itself contains a part-number-shaped token.
     const hasAutoKeyword = autoKeywords.some(word => new RegExp(`\\b${word}\\b`, 'i').test(normalizedTitle));
     const hasBrand = brands.some(brand => new RegExp(`\\b${brand}\\b`, 'i').test(normalizedTitle));
-    if (!partNumber && mechanicalMatchCount === 0 && !hasAutoKeyword && !hasBrand) {
+    if (mechanicalMatchCount === 0 && !hasAutoKeyword && !hasBrand && !looksLikePartNumber) {
       return 0; // Reject non-automotive item for part number query
     }
   }

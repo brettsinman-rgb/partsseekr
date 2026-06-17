@@ -314,26 +314,6 @@ export default async function Home() {
                 We scour <span className="font-bold text-[#5ec2a4]">hundreds of parts from trusted sellers</span>, so you can get back to chasing that oil leak.
               </p>
             </div>
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {[
-                { name: 'eBay', src: '/logos/ebay.png' },
-                { name: 'Amazon', src: '/logos/amazon.png' },
-                { name: 'AliExpress', src: '/logos/aliexpress.png' }
-              ].map((brand) => (
-                <div
-                  key={brand.name}
-                  className="flex h-20 items-center justify-center rounded-2xl border border-[#5ec2a4] bg-white px-6"
-                >
-                  <Image
-                    src={brand.src}
-                    alt={`${brand.name} logo`}
-                    width={220}
-                    height={60}
-                    className={`${brand.name === 'Amazon' ? 'h-9 translate-y-[5px]' : 'h-10'} w-auto object-contain`}
-                  />
-                </div>
-              ))}
-            </div>
           </div>
           <AutoBrandTicker />
         </div>

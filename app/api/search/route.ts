@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import { prisma } from '@/lib/db';
 import { getProviders } from '@/lib/providers';
 import { dedupeResults, normalizeCandidates, sortResults } from '@/lib/normalize';
+import { buildSearchQueryPlan } from '@/lib/search-query';
 import { hashBuffer, hashString, sanitizeUrl } from '@/lib/utils';
 import { rateLimit } from '@/lib/rate-limit';
 import { uploadToSupabase } from '@/lib/storage';
@@ -204,23 +205,41 @@ export async function POST(request: Request) {
     const searchOptions = {
       country: country && country !== 'WORLD' ? country : undefined
     };
+    const queryPlan = query ? buildSearchQueryPlan(query) : null;
+    if (queryPlan) {
+      console.log(
+        `[Search] Query classified as ${queryPlan.kind}; variants: ${queryPlan.variants.join(' | ')}`
+      );
+    }
     const providerResults = await Promise.all(
       providers.map(async (provider) => {
         try {
-          const candidates = query
-            ? (await provider.searchByText?.(query, searchOptions)) ?? []
+          const candidates = queryPlan
+            ? (
+                await Promise.all(
+                  queryPlan.variants.map((variant) => provider.searchByText?.(variant, searchOptions) ?? [])
+                )
+              ).flat()
             : (await provider.searchByImage?.(imageUrl, searchOptions, imageBase64)) ?? [];
           
           console.log(`[Search] Provider ${provider.id} returned ${candidates.length} candidates`);
           
-          const normalized = normalizeCandidates(candidates, query || undefined).map((item) => ({
+          const candidateLookup = new Map<string, (typeof candidates)[number]>();
+          for (const candidate of candidates) {
+            if (candidate.productUrl && !candidateLookup.has(candidate.productUrl)) {
+              candidateLookup.set(candidate.productUrl, candidate);
+            }
+          }
+          const uniqueCandidates = Array.from(candidateLookup.values());
+
+          const normalized = normalizeCandidates(uniqueCandidates, queryPlan?.original).map((item) => ({
             ...item,
             providerId: provider.id
           }));
           
           console.log(`[Search] Provider ${provider.id} has ${normalized.length} normalized results`);
           
-          const raw = candidates
+          const raw = uniqueCandidates
             .filter((item) => item.productUrl)
             .map((item) => [item.productUrl as string, item.raw] as const);
           return { providerId: provider.id, normalized, raw };
