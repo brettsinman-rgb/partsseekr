@@ -3,6 +3,7 @@ import { getProviders } from '@/lib/providers';
 import { normalizeCandidates, sortResults } from '@/lib/normalize';
 import { buildSearchQueryPlan } from '@/lib/search-query';
 import { sanitizeUrl } from '@/lib/utils';
+import { sendPriceAlertEmail } from '@/lib/price-alert-notifications';
 
 export type LowestPriceMatch = {
   price: number;
@@ -90,7 +91,10 @@ export async function runPriceAlertSearch(searchQuery: string, manufacturer?: st
 }
 
 export async function checkPriceAlert(alertId: string) {
-  const alert = await prisma.priceAlert.findUnique({ where: { id: alertId } });
+  const alert = await prisma.priceAlert.findUnique({
+    where: { id: alertId },
+    include: { user: { select: { email: true } } }
+  });
   if (!alert || alert.status !== 'active') return null;
 
   const results = await runPriceAlertSearch(alert.searchQuery, alert.manufacturer);
@@ -108,7 +112,7 @@ export async function checkPriceAlert(alertId: string) {
     ? lowest.currency === alert.currency && lowest.price <= alert.targetPrice
     : alert.currentLowestPrice != null && lowest.currency === alert.currency && lowest.price < alert.currentLowestPrice;
 
-  return prisma.priceAlert.update({
+  const updated = await prisma.priceAlert.update({
     where: { id: alert.id },
     data: {
       currentLowestPrice: lowest.price,
@@ -118,8 +122,34 @@ export async function checkPriceAlert(alertId: string) {
       lastResultUrl: lowest.productUrl,
       lastResultPrice: lowest.price,
       lastResultImage: lowest.image,
+      triggeredPrice: triggered ? lowest.price : alert.triggeredPrice,
+      triggeredProductTitle: triggered ? lowest.title : alert.triggeredProductTitle,
+      triggeredProductUrl: triggered ? lowest.productUrl : alert.triggeredProductUrl,
+      triggeredProductImage: triggered ? lowest.image : alert.triggeredProductImage,
+      notificationType: triggered ? 'in_app,email' : alert.notificationType,
+      notificationStatus: triggered ? 'pending' : alert.notificationStatus,
       status: triggered ? 'triggered' : alert.status,
       triggeredAt: triggered ? now : alert.triggeredAt
     }
   });
+
+  if (triggered) {
+    const email = await sendPriceAlertEmail({
+      to: alert.user.email,
+      searchQuery: alert.searchQuery,
+      productTitle: lowest.title,
+      price: lowest.price,
+      currency: lowest.currency,
+      productUrl: lowest.productUrl
+    }).catch(() => ({ status: 'failed' as const }));
+
+    if (email.status === 'sent') {
+      return prisma.priceAlert.update({
+        where: { id: alert.id },
+        data: { notificationSentAt: now }
+      });
+    }
+  }
+
+  return updated;
 }

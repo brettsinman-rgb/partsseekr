@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import PriceAlertNotifications from '@/app/components/PriceAlertNotifications';
 
 export const metadata = {
   title: 'Parts Seekr',
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {`window.googletag = window.googletag || { cmd: [] };`}
         </Script>
         {children}
+        <PriceAlertNotifications />
       </body>
     </html>
   );

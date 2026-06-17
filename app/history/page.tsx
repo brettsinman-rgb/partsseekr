@@ -93,7 +93,8 @@ export default async function HistoryPage() {
             createdAt: alert.createdAt.toISOString(),
             updatedAt: alert.updatedAt.toISOString(),
             lastCheckedAt: alert.lastCheckedAt?.toISOString() ?? null,
-            triggeredAt: alert.triggeredAt?.toISOString() ?? null
+            triggeredAt: alert.triggeredAt?.toISOString() ?? null,
+            notificationSentAt: alert.notificationSentAt?.toISOString() ?? null
           }))}
         />
 

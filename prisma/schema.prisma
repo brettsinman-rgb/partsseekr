@@ -90,6 +90,13 @@ model PriceAlert {
   lastResultUrl      String?
   lastResultPrice    Float?
   lastResultImage    String?
+  notificationType   String   @default("in_app")
+  notificationStatus String   @default("none")
+  notificationSentAt DateTime?
+  triggeredPrice        Float?
+  triggeredProductTitle String?
+  triggeredProductUrl   String?
+  triggeredProductImage String?
   user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])

@@ -15,6 +15,17 @@ function formatPrice(value: number, currency: string) {
   }
 }
 
+async function readJsonResponse(response: Response) {
+  const text = await response.text();
+  if (!text.trim()) return null;
+
+  try {
+    return JSON.parse(text) as { error?: string; message?: string; alert?: unknown };
+  } catch {
+    return null;
+  }
+}
+
 export default function PriceAlertButton({
   sessionId,
   query,
@@ -49,18 +60,23 @@ export default function PriceAlertButton({
           targetPrice: targetPrice.trim() ? Number(targetPrice) : null
         })
       });
-      const json = await response.json();
+      const json = await readJsonResponse(response);
       if (response.status === 401) {
         setRequiresAuth(true);
-        setMessage(json.error || 'Sign in to create a price alert.');
+        setMessage(json?.error || json?.message || 'Sign in to create a price alert.');
         return;
       }
-      if (!response.ok) throw new Error(json.error || 'Unable to create price alert.');
+      if (!response.ok) {
+        throw new Error(json?.error || json?.message || 'Could not create price alert. Please try again.');
+      }
+      if (!json?.alert) {
+        throw new Error('Could not create price alert. Please try again.');
+      }
       setMessage('Price alert saved.');
       setTargetPrice('');
       setOpen(false);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Unable to create price alert.');
+      setMessage(error instanceof Error ? error.message : 'Could not create price alert. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -74,13 +90,16 @@ export default function PriceAlertButton({
         onClick={() => setOpen((value) => !value)}
         className="inline-flex h-10 items-center justify-center rounded-full border border-[#262626]/15 bg-white px-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#262626] shadow-sm transition hover:border-[#0FF7D0]/50 hover:bg-[#0FF7D0]/10 disabled:cursor-not-allowed disabled:opacity-45"
       >
-        Watch Price
+        Price Alert
       </button>
 
       {open && (
         <div className="absolute right-0 top-12 z-30 w-[min(320px,calc(100vw-2rem))] rounded-3xl border border-[#0FF7D0]/20 bg-white p-4 text-[#262626] shadow-xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#262626]/55">Price alert</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#262626]/55">Price Alert</p>
           <p className="mt-1 text-sm font-semibold">{query}</p>
+          <p className="mt-2 text-xs leading-5 text-[#262626]/58">
+            Get alerted when this part drops to your target price.
+          </p>
           {currentLowestPrice != null && currency ? (
             <p className="mt-1 text-xs text-[#262626]/60">
               Current lowest: {formatPrice(currentLowestPrice, currency)}
@@ -88,7 +107,7 @@ export default function PriceAlertButton({
           ) : null}
           <label className="mt-4 block">
             <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#262626]/55">
-              Target price optional
+              Target price
             </span>
             <input
               type="number"

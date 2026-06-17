@@ -18,11 +18,23 @@ export async function PATCH(
   }
 
   const { id } = await params;
-  const body = await request.json().catch(() => null) as { status?: string } | null;
+  const body = await request.json().catch(() => null) as {
+    status?: string;
+    notificationStatus?: string;
+  } | null;
   const status = body?.status;
+  const notificationStatus = body?.notificationStatus;
 
-  if (!status || !['active', 'paused'].includes(status)) {
+  if (status && !['active', 'paused'].includes(status)) {
     return NextResponse.json({ error: 'Invalid alert status.' }, { status: 400 });
+  }
+
+  if (notificationStatus && !['pending', 'dismissed'].includes(notificationStatus)) {
+    return NextResponse.json({ error: 'Invalid notification status.' }, { status: 400 });
+  }
+
+  if (!status && !notificationStatus) {
+    return NextResponse.json({ error: 'No alert update provided.' }, { status: 400 });
   }
 
   const existing = await prisma.priceAlert.findFirst({ where: { id, userId } });
@@ -32,7 +44,10 @@ export async function PATCH(
 
   const alert = await prisma.priceAlert.update({
     where: { id },
-    data: { status }
+    data: {
+      ...(status ? { status } : {}),
+      ...(notificationStatus ? { notificationStatus } : {})
+    }
   });
 
   return NextResponse.json({ alert });
