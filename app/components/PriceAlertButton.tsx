@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 function formatPrice(value: number, currency: string) {
@@ -49,14 +49,26 @@ export default function PriceAlertButton({
   const [targetPrice, setTargetPrice] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [messageType, setMessageType] = useState<'success' | 'error'>('error');
   const [requiresAuth, setRequiresAuth] = useState(false);
 
   const canCreate = Boolean(query && currentLowestPrice != null && currency);
+
+  useEffect(() => {
+    if (!message || messageType !== 'success') return;
+
+    const timeout = window.setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+
+    return () => window.clearTimeout(timeout);
+  }, [message, messageType]);
 
   const createAlert = async () => {
     if (!canCreate) return;
     setLoading(true);
     setMessage(null);
+    setMessageType('error');
     setRequiresAuth(false);
 
     try {
@@ -71,6 +83,7 @@ export default function PriceAlertButton({
       const json = await readJsonResponse(response);
       if (response.status === 401) {
         setRequiresAuth(true);
+        setMessageType('error');
         setMessage(json?.error || json?.message || 'Sign in to create a price alert.');
         return;
       }
@@ -80,10 +93,12 @@ export default function PriceAlertButton({
       if (!json?.alert) {
         throw new Error('Could not create price alert. Please try again.');
       }
-      setMessage('Price alert saved.');
+      setMessageType('success');
+      setMessage("We'll notify you when this part reaches your target price.");
       setTargetPrice('');
       setOpen(false);
     } catch (error) {
+      setMessageType('error');
       setMessage(error instanceof Error ? error.message : 'Could not create price alert. Please try again.');
     } finally {
       setLoading(false);
@@ -139,8 +154,24 @@ export default function PriceAlertButton({
       )}
 
       {message && (
-        <div className="fixed left-1/2 top-24 z-50 w-[calc(100vw-32px)] max-w-[calc(100vw-32px)] -translate-x-1/2 rounded-2xl border border-[#0FF7D0]/20 bg-white p-4 text-sm shadow-xl sm:absolute sm:left-auto sm:right-0 sm:top-12 sm:w-[320px] sm:max-w-[320px] sm:translate-x-0">
-          <p className="font-medium text-[#262626]">{message}</p>
+        <div
+          className={[
+            'fixed left-1/2 top-24 z-50 w-[calc(100vw-32px)] max-w-[calc(100vw-32px)] -translate-x-1/2 animate-[toast-enter_180ms_ease-out] rounded-2xl p-4 text-sm shadow-xl transition-opacity sm:absolute sm:left-auto sm:right-0 sm:top-12 sm:w-[320px] sm:max-w-[320px] sm:translate-x-0',
+            messageType === 'success'
+              ? 'border border-[#0CC6A6]/25 bg-[#0FF7D0] text-[#111111]'
+              : 'border border-red-100 bg-white text-[#262626]'
+          ].join(' ')}
+        >
+          <p className="flex items-start gap-2 font-medium">
+            {messageType === 'success' && (
+              <span className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#111111]/10 text-[#111111]" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </span>
+            )}
+            <span>{message}</span>
+          </p>
           {requiresAuth && (
             <div className="mt-3 flex gap-2">
               <Link href="/auth/login" className="rounded-full bg-[#111111] px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white">
