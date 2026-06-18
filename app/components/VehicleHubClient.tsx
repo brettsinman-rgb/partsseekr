@@ -334,17 +334,16 @@ export default function VehicleHubClient({
             <h2 className="mt-1 text-2xl font-bold text-[#111111]">Quick-search common jobs</h2>
           </div>
         </div>
-        <div className="mt-4 grid grid-cols-1 gap-2.5 min-[460px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+        <div className="mt-4 grid grid-cols-3 gap-2 md:grid-cols-4 xl:grid-cols-6">
           {POPULAR_PARTS.map((part) => (
-            <button key={part.name} type="button" disabled={searchingPart !== null} onClick={() => void launchSearch(part.name)} className="group rounded-[20px] bg-[#f8f9f6] p-3.5 text-left shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_18px_45px_-34px_rgba(17,17,17,0.8)] hover:ring-[#0FF7D0]/50 disabled:cursor-not-allowed disabled:opacity-60">
-              <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white text-[#111111] ring-1 ring-black/5 transition group-hover:bg-[#0FF7D0]">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+            <button key={part.name} type="button" disabled={searchingPart !== null} onClick={() => void launchSearch(part.name)} className="group min-h-[104px] rounded-[18px] bg-[#f8f9f6] p-2.5 text-left shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_18px_45px_-34px_rgba(17,17,17,0.8)] hover:ring-[#0FF7D0]/50 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60 sm:p-3 xl:min-h-[118px] xl:rounded-[20px] xl:p-3.5">
+              <div className="mb-2 flex h-7 w-7 items-center justify-center rounded-xl bg-white text-[#111111] ring-1 ring-black/5 transition group-hover:bg-[#0FF7D0] sm:h-8 sm:w-8">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
                   <PartIcon icon={part.icon} />
                 </svg>
               </div>
-              <p className="text-sm font-bold leading-5 text-[#111111]">{part.name}</p>
-              <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#0CC6A6]">{part.category}</p>
-              <p className="mt-1.5 text-[11px] font-medium leading-4 text-[#262626]/50">Search for this vehicle</p>
+              <p className="text-[12px] font-bold leading-4 text-[#111111] sm:text-sm sm:leading-5">{part.name}</p>
+              <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#0CC6A6] sm:text-[10px]">{part.category}</p>
             </button>
           ))}
         </div>
