@@ -77,18 +77,22 @@ function VehicleHeroImage({ vehicle }: { vehicle: VehicleHubVehicle }) {
     return <Image src={vehicle.imageUrl} alt={vehicleDisplayName(vehicle)} fill sizes="(max-width: 768px) 100vw, 420px" className="object-cover" />;
   }
 
-  if (logo) {
-    return <Image src={logo} alt={`${vehicle.make} logo`} fill sizes="260px" className="object-contain p-12" />;
-  }
-
   return (
-    <div className="flex h-full items-end justify-center px-8 pb-8 text-[#0FF7D0]/75">
-      <svg viewBox="0 0 260 96" className="h-36 w-full max-w-md" fill="none" aria-hidden="true">
-        <path d="M34 60c12-23 26-34 50-34h56c24 0 45 13 64 34h18c8 0 14 6 14 14v4H22v-4c0-8 5-14 12-14Z" stroke="currentColor" strokeWidth="6" strokeLinejoin="round" />
-        <path d="M83 28 66 58M147 28l31 30" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-        <circle cx="72" cy="78" r="13" stroke="currentColor" strokeWidth="6" />
-        <circle cx="194" cy="78" r="13" stroke="currentColor" strokeWidth="6" />
+    <div className="relative flex h-full min-h-[240px] items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#101010_0%,#181a18_52%,#0b2a25_100%)] px-6">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(15,247,208,0.18),transparent_36%)]" />
+      <div className="absolute bottom-8 left-1/2 h-24 w-[78%] -translate-x-1/2 rounded-full bg-[#0FF7D0]/10 blur-3xl" />
+      <svg viewBox="0 0 420 150" className="absolute bottom-10 left-1/2 w-[88%] -translate-x-1/2 text-white/10" fill="none" aria-hidden="true">
+        <path d="M64 95c24-38 50-55 91-55h95c43 0 77 20 110 55h28c12 0 22 10 22 22v6H14v-6c0-12 10-22 22-22h28Z" fill="currentColor" />
+        <circle cx="121" cy="120" r="22" fill="#111111" />
+        <circle cx="318" cy="120" r="22" fill="#111111" />
       </svg>
+      <div className="relative flex h-28 w-28 items-center justify-center rounded-[34px] bg-white/8 ring-1 ring-white/12 backdrop-blur">
+        {logo ? (
+          <Image src={logo} alt={`${vehicle.make} logo`} fill sizes="112px" className="object-contain p-6" />
+        ) : (
+          <span className="text-4xl font-bold text-[#0FF7D0]">{vehicle.make.slice(0, 1).toUpperCase()}</span>
+        )}
+      </div>
     </div>
   );
 }
@@ -287,13 +291,12 @@ export default function VehicleHubClient({
 
   return (
     <div className="space-y-6 sm:space-y-8">
-      <section className="overflow-hidden rounded-[32px] bg-[#111111] text-white shadow-[0_28px_90px_-52px_rgba(17,17,17,0.9)] sm:rounded-[36px]">
-        <div className="grid gap-0 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-          <div className="relative min-h-[220px] bg-[#151515] sm:min-h-[300px]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(15,247,208,0.24),transparent_34%)]" />
+      <section className="overflow-hidden rounded-[30px] bg-[#111111] text-white shadow-[0_24px_80px_-56px_rgba(17,17,17,0.9)] sm:rounded-[34px]">
+        <div className="grid gap-0 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]">
+          <div className="relative min-h-[240px] bg-[#151515] sm:min-h-[280px]">
             <VehicleHeroImage vehicle={vehicle} />
           </div>
-          <div className="p-5 sm:p-8 lg:p-10">
+          <div className="p-5 sm:p-7 lg:p-9">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <Link href="/garage" className="text-xs font-bold uppercase tracking-[0.18em] text-[#0FF7D0]">Back to My Garage</Link>
               <span className="rounded-full bg-white/8 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white/55">Vehicle Hub</span>
@@ -303,13 +306,13 @@ export default function VehicleHubClient({
             {(vehicle.badge || vehicle.series || vehicle.engine) && (
               <p className="mt-3 text-lg font-medium text-white/68">{[vehicle.badge, vehicle.series, vehicle.engine].filter(Boolean).join(' / ')}</p>
             )}
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-3">
               {[
                 ['Active Price Alerts', stats.activePriceAlerts],
                 ['Saved Searches', stats.savedSearches],
                 ['Triggered Alerts', stats.triggeredAlerts]
               ].map(([label, value]) => (
-                <div key={label} className="rounded-[22px] bg-white/8 p-4 ring-1 ring-white/10">
+                <div key={label} className="rounded-[20px] bg-white/7 p-3.5 ring-1 ring-white/10">
                   <p className="text-2xl font-bold text-[#0FF7D0]">{value}</p>
                   <p className="mt-1 text-[10px] font-bold uppercase leading-4 tracking-[0.14em] text-white/52">{label}</p>
                 </div>
@@ -340,24 +343,24 @@ export default function VehicleHubClient({
         {message && <p role="status" className="mt-3 text-sm font-semibold text-[#262626]/65">{message}</p>}
       </section>
 
-      <section className="rounded-[32px] bg-white/82 p-5 shadow-sm ring-1 ring-black/5">
+      <section className="rounded-[30px] bg-white/82 p-5 shadow-sm ring-1 ring-black/5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#0CC6A6]">Popular Parts</p>
             <h2 className="mt-1 text-2xl font-bold text-[#111111]">Quick-search common jobs</h2>
           </div>
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-4 grid grid-cols-1 gap-2.5 min-[460px]:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
           {POPULAR_PARTS.map((part) => (
-            <button key={part.name} type="button" disabled={searchingPart !== null} onClick={() => void launchSearch(part.name)} className="group rounded-[24px] bg-[#f8f9f6] p-5 text-left shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:bg-white hover:ring-[#0FF7D0]/45 disabled:cursor-not-allowed disabled:opacity-60">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-[#111111] ring-1 ring-black/5 transition group-hover:bg-[#0FF7D0]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
+            <button key={part.name} type="button" disabled={searchingPart !== null} onClick={() => void launchSearch(part.name)} className="group rounded-[20px] bg-[#f8f9f6] p-3.5 text-left shadow-sm ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_18px_45px_-34px_rgba(17,17,17,0.8)] hover:ring-[#0FF7D0]/50 disabled:cursor-not-allowed disabled:opacity-60">
+              <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-xl bg-white text-[#111111] ring-1 ring-black/5 transition group-hover:bg-[#0FF7D0]">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round">
                   <PartIcon icon={part.icon} />
                 </svg>
               </div>
-              <p className="text-base font-bold text-[#111111]">{part.name}</p>
+              <p className="text-sm font-bold leading-5 text-[#111111]">{part.name}</p>
               <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#0CC6A6]">{part.category}</p>
-              <p className="mt-2 text-xs font-medium text-[#262626]/52">Search for this {vehicle.make} {vehicle.model}</p>
+              <p className="mt-1.5 text-[11px] font-medium leading-4 text-[#262626]/50">Search for this vehicle</p>
             </button>
           ))}
         </div>
