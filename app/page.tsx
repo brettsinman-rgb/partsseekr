@@ -9,6 +9,7 @@ import { prisma } from '@/lib/db';
 import { getLatestDevSessions } from '@/lib/dev-session-store';
 import { createClient } from '@/lib/supabase/server';
 import { sanitizeUrl } from '@/lib/utils';
+import { manufacturerLogo } from '@/lib/garage-vehicles';
 
 type PreviousSearchItem = {
   id: string;
@@ -17,6 +18,35 @@ type PreviousSearchItem = {
   image: string;
   productUrl: string;
 };
+
+type GaragePreviewItem = {
+  id: string;
+  make: string;
+  model: string;
+  year: number;
+  series?: string | null;
+  engine?: string | null;
+  badge?: string | null;
+};
+
+async function getGaragePreview(userId?: string): Promise<GaragePreviewItem[]> {
+  if (!userId) return [];
+
+  return prisma.garageVehicle.findMany({
+    where: { userId },
+    orderBy: [{ updatedAt: 'desc' }, { year: 'desc' }],
+    take: 3,
+    select: {
+      id: true,
+      make: true,
+      model: true,
+      year: true,
+      series: true,
+      engine: true,
+      badge: true
+    }
+  }).catch(() => []);
+}
 
 async function getPreviousSearches(): Promise<PreviousSearchItem[]> {
   const supabase = await createClient();
@@ -153,6 +183,7 @@ export default async function Home() {
   const previousSearches = await getPreviousSearches();
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const garageVehicles = await getGaragePreview(user?.id);
 
   return (
     <main className="min-h-screen px-4 py-8 sm:px-6 sm:py-14">
@@ -200,6 +231,51 @@ export default async function Home() {
                   Create a free account →
                 </Link>
               </p>
+            </section>
+          )}
+          {user && garageVehicles.length > 0 && (
+            <section className="rounded-[32px] bg-white/86 p-5 shadow-[0_22px_70px_-55px_rgba(17,17,17,0.65)] ring-1 ring-black/5 fade-up fade-up-delay-1">
+              <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#0CC6A6]">My Garage</p>
+                  <h2 className="mt-1 text-2xl font-bold text-[#262626]">Your saved vehicles</h2>
+                </div>
+                <Link href="/garage" className="inline-flex h-10 items-center justify-center rounded-full bg-[#111111] px-5 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition hover:bg-[#0FF7D0] hover:text-[#07181b]">
+                  Manage Garage
+                </Link>
+              </div>
+              <div className="grid gap-4 md:grid-cols-3">
+                {garageVehicles.map((vehicle) => {
+                  const logo = manufacturerLogo(vehicle.make);
+                  return (
+                    <article key={vehicle.id} className="overflow-hidden rounded-[26px] bg-[#f8f9f6] p-3 ring-1 ring-black/5">
+                      <div className="relative h-28 overflow-hidden rounded-[22px] bg-[#111111]">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(15,247,208,0.22),transparent_35%)]" />
+                        {logo ? (
+                          <div className="relative h-full">
+                            <Image src={logo} alt={`${vehicle.make} logo`} fill sizes="180px" className="object-contain p-7" />
+                          </div>
+                        ) : (
+                          <div className="relative flex h-full items-end justify-center px-5 pb-3 text-[#0FF7D0]/70">
+                            <svg viewBox="0 0 260 96" className="h-20 w-full" fill="none" aria-hidden="true">
+                              <path d="M34 60c12-23 26-34 50-34h56c24 0 45 13 64 34h18c8 0 14 6 14 14v4H22v-4c0-8 5-14 12-14Z" stroke="currentColor" strokeWidth="6" strokeLinejoin="round" />
+                              <circle cx="72" cy="78" r="13" stroke="currentColor" strokeWidth="6" />
+                              <circle cx="194" cy="78" r="13" stroke="currentColor" strokeWidth="6" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+                      <div className="p-2">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0CC6A6]">{vehicle.year}</p>
+                        <h3 className="mt-1 truncate text-lg font-bold text-[#111111]">{vehicle.make} {vehicle.model}</h3>
+                        {(vehicle.badge || vehicle.series) && (
+                          <p className="mt-1 truncate text-xs font-semibold text-[#262626]/55">{[vehicle.badge, vehicle.series].filter(Boolean).join(' / ')}</p>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
             </section>
           )}
           {user && previousSearches.length > 0 && (
