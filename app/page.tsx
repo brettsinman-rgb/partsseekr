@@ -315,10 +315,10 @@ export default async function Home() {
               </div>
             </section>
           )}
-          <div className="rounded-3xl border border-[rgba(15,247,208,0.25)] bg-[#202020] px-6 py-10 shadow-soft fade-up fade-up-delay-1">
+          <div className="rounded-3xl border border-white/[0.05] bg-[linear-gradient(180deg,#242424_0%,#202020_50%,#1c1c1c_100%)] px-6 py-10 shadow-[0_10px_30px_rgba(0,0,0,0.15)] fade-up fade-up-delay-1">
             <div className="mx-auto max-w-3xl text-center">
               <p className="display-font text-xl font-semibold text-white md:text-2xl">
-                We scour <span className="relative inline-block font-bold text-[#0FF7D0]"><span aria-hidden="true" className="absolute inset-x-[-10%] inset-y-[-35%] rounded-full bg-[radial-gradient(circle,rgba(15,247,208,0.10),transparent_68%)]" /><span className="relative">hundreds of parts from trusted sellers</span></span>, so you can get back to chasing that oil leak.
+                We scour <span className="font-bold text-[#0FF7D0]">hundreds of parts from trusted sellers</span>, so you can get back to chasing that oil leak.
               </p>
             </div>
           </div>
