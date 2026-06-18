@@ -25,6 +25,10 @@ function normalizeImageUrl(url?: string | null) {
   return url.startsWith('/') ? url : '/placeholder.svg'
 }
 
+function queryKey(value?: string | null) {
+  return value?.trim().toLowerCase() ?? ''
+}
+
 export default async function HistoryPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -58,6 +62,11 @@ export default async function HistoryPage() {
   const sessions = sessionsResult.status === 'fulfilled' ? sessionsResult.value : []
   const priceAlerts = priceAlertsResult.status === 'fulfilled' ? priceAlertsResult.value : []
   const priceAlertsError = priceAlertsResult.status === 'rejected'
+  const topResultImagesByQuery = new Map(
+    sessions
+      .filter((session) => session.query && session.results[0]?.image)
+      .map((session) => [queryKey(session.query), session.results[0].image])
+  )
 
   return (
     <main className="min-h-screen bg-[#f4f5ef] px-4 py-10 text-[#111111] sm:px-6">
@@ -94,7 +103,8 @@ export default async function HistoryPage() {
             updatedAt: alert.updatedAt.toISOString(),
             lastCheckedAt: alert.lastCheckedAt?.toISOString() ?? null,
             triggeredAt: alert.triggeredAt?.toISOString() ?? null,
-            notificationSentAt: alert.notificationSentAt?.toISOString() ?? null
+            notificationSentAt: alert.notificationSentAt?.toISOString() ?? null,
+            savedResultImage: topResultImagesByQuery.get(queryKey(alert.searchQuery)) ?? null
           }))}
         />
 

@@ -13,6 +13,7 @@ type PriceAlertItem = {
   status: string;
   createdAt: Date | string;
   lastCheckedAt?: Date | string | null;
+  savedResultImage?: string | null;
   lastResultImage?: string | null;
   triggeredPrice?: number | null;
   triggeredProductTitle?: string | null;
@@ -64,6 +65,14 @@ function statusClass(status: string) {
   if (status === 'triggered') return 'bg-[#111111] text-white';
   if (status === 'paused') return 'bg-[#262626]/8 text-[#262626]/60';
   return 'bg-[#0FF7D0]/18 text-[#0CC6A6]';
+}
+
+function alertThumbnail(alert: PriceAlertItem) {
+  return normalizeImageUrl(
+    alert.savedResultImage ||
+      alert.lastResultImage ||
+      alert.triggeredProductImage
+  );
 }
 
 export default function PriceAlertsPanel({
@@ -118,7 +127,7 @@ export default function PriceAlertsPanel({
               <div className="grid gap-3 sm:grid-cols-[76px_minmax(0,1fr)_auto] sm:items-center">
                 <div className="relative h-[76px] w-[76px] overflow-hidden rounded-[18px] bg-[#f8f9f6] ring-1 ring-black/5">
                   <Image
-                    src={normalizeImageUrl(alert.lastResultImage)}
+                    src={alertThumbnail(alert)}
                     alt={alert.searchQuery}
                     fill
                     sizes="76px"

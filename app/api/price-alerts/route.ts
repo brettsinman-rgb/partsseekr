@@ -22,6 +22,12 @@ function inferManufacturer(query?: string | null) {
   return known.find((brand) => query.toLowerCase().startsWith(`${brand.toLowerCase()} `)) ?? null;
 }
 
+function bestVisualResult<T extends { matchScore: number; price: number; image?: string | null }>(results: T[]) {
+  return [...results]
+    .filter((result) => result.image)
+    .sort((a, b) => b.matchScore - a.matchScore || a.price - b.price)[0] ?? null;
+}
+
 async function requireUser() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -138,6 +144,7 @@ export async function POST(request: Request) {
     if (!lowest) {
       return NextResponse.json({ error: 'No priced results are available for this search.' }, { status: 400 });
     }
+    const visualResult = bestVisualResult(session.results);
 
     const parsedTarget =
       body.targetPrice === null || body.targetPrice === undefined || body.targetPrice === ''
@@ -161,7 +168,7 @@ export async function POST(request: Request) {
         lastResultTitle: lowest.title,
         lastResultUrl: lowest.productUrl,
         lastResultPrice: lowest.price,
-        lastResultImage: lowest.image
+        lastResultImage: visualResult?.image ?? lowest.image
       },
       select: {
         id: true,
