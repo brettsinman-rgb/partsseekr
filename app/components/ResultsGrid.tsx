@@ -13,7 +13,8 @@ export default function ResultsGrid({ results, sessionId }: { results: ResultIte
       const width = window.innerWidth;
       if (width >= 1280) return 4; // xl:grid-cols-4
       if (width >= 1024) return 3; // lg:grid-cols-3
-      if (width >= 640) return 2; // sm:grid-cols-2
+      if (width >= 768) return 3; // md:grid-cols-3
+      if (width >= 480) return 2; // min-[480px]:grid-cols-2
       return 1; // grid-cols-1
     };
 
@@ -40,7 +41,7 @@ export default function ResultsGrid({ results, sessionId }: { results: ResultIte
     const hasMoreResultsAfter = index < results.length - 1;
     if (isEveryFourthRow && hasMoreResultsAfter) {
       items.push(
-        <div key={`inline-banner-${index}`} className="sm:col-span-2 lg:col-span-3 xl:col-span-4">
+        <div key={`inline-banner-${index}`} className="min-[480px]:col-span-2 md:col-span-3 xl:col-span-4">
           <AdSlot
             size="970x250"
             mobileSize="300x250"
@@ -53,7 +54,7 @@ export default function ResultsGrid({ results, sessionId }: { results: ResultIte
   });
 
   return (
-    <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="mt-8 grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 md:grid-cols-3 lg:gap-6 xl:grid-cols-4">
       {items}
     </div>
   );

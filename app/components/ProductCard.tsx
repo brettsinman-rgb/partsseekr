@@ -74,36 +74,46 @@ export default function ProductCard({
   return (
     <div
       className={[
-        'group flex h-full flex-col overflow-hidden rounded-3xl border-2 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-lg',
+        'group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border-2 bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-lg sm:rounded-3xl',
         isBest ? 'best-price-glow border-[#0FF7D0]' : 'border-[#0FF7D0]'
       ].join(' ')}
     >
-      <div className="relative h-48 w-full bg-white">
-        <Image src={result.image} alt={result.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 25vw" />
+      <div className="relative h-36 w-full bg-white min-[480px]:h-28 sm:h-40 lg:h-48">
+        <Image
+          src={result.image}
+          alt={result.title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, (max-width: 1279px) 33vw, 25vw"
+        />
       </div>
-      <div className="flex flex-1 flex-col gap-4 p-5">
-        <div className="min-h-[72px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#262626]/70">{result.store}</p>
-          <h3 className="mt-2 text-sm font-semibold text-[#262626] line-clamp-2">{result.title}</h3>
-          {renderStars(result.rating)}
+      <div className="flex min-w-0 flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-5">
+        <div className="min-h-[68px] min-w-0 sm:min-h-[72px]">
+          <p className="truncate text-[9px] font-semibold uppercase tracking-[0.16em] text-[#262626]/70 sm:text-[11px] sm:tracking-[0.2em]">
+            {result.store}
+          </p>
+          <h3 className="mt-1.5 text-[13px] font-semibold leading-snug text-[#262626] line-clamp-2 sm:mt-2 sm:text-sm">
+            {result.title}
+          </h3>
+          <div className="mt-1">{renderStars(result.rating)}</div>
         </div>
-        <div className="rounded-2xl border border-[#0FF7D0] bg-[#ebebe3] p-3 text-xs text-[#262626]/70">
-          <div className="flex items-center justify-between">
-            <span className="uppercase tracking-[0.2em] text-[10px] text-[#262626]/70">Price</span>
-            <span className="font-semibold text-[#262626]">{formatPrice(result.price, result.currency)}</span>
+        <div className="rounded-2xl border border-[#0FF7D0] bg-[#ebebe3] p-2.5 text-[11px] text-[#262626]/70 sm:p-3 sm:text-xs">
+          <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2">
+            <span className="text-[8px] uppercase tracking-[0.14em] text-[#262626]/70 sm:text-[10px] sm:tracking-[0.2em]">Price</span>
+            <span className="min-w-0 text-right font-semibold leading-snug text-[#262626]">{formatPrice(result.price, result.currency)}</span>
           </div>
-          <div className="mt-2 flex items-center justify-between">
-            <span className="uppercase tracking-[0.2em] text-[10px] text-[#262626]/70">Shipping</span>
-            <span>{shippingText}</span>
+          <div className="mt-1.5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2 sm:mt-2">
+            <span className="text-[8px] uppercase tracking-[0.14em] text-[#262626]/70 sm:text-[10px] sm:tracking-[0.2em]">Shipping</span>
+            <span className="min-w-0 text-right leading-snug">{shippingText}</span>
           </div>
-          <div className="mt-2 flex items-center justify-between">
-            <span className="uppercase tracking-[0.2em] text-[10px] text-[#262626]/70">Condition</span>
-            <span className="capitalize">{condition}</span>
+          <div className="mt-1.5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2 sm:mt-2">
+            <span className="text-[8px] uppercase tracking-[0.14em] text-[#262626]/70 sm:text-[10px] sm:tracking-[0.2em]">Condition</span>
+            <span className="min-w-0 text-right capitalize leading-snug">{condition}</span>
           </div>
           {result.availability ? (
-            <div className="mt-2 flex items-center justify-between">
-              <span className="uppercase tracking-[0.2em] text-[10px] text-[#262626]/70">Availability</span>
-              <span className="capitalize">{result.availability}</span>
+            <div className="mt-1.5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-2 sm:mt-2">
+              <span className="text-[8px] uppercase tracking-[0.14em] text-[#262626]/70 sm:text-[10px] sm:tracking-[0.2em]">Availability</span>
+              <span className="min-w-0 text-right capitalize leading-snug">{result.availability}</span>
             </div>
           ) : null}
         </div>
@@ -118,7 +128,7 @@ export default function ProductCard({
             }
             trackClick(sessionId, result.id);
           }}
-          className="mt-auto inline-flex items-center justify-center rounded-full bg-[#0FF7D0]/90 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#07181b] transition group-hover:bg-[#0FF7D0]"
+          className="mt-auto inline-flex min-h-11 items-center justify-center rounded-full bg-[#0FF7D0]/90 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#07181b] transition group-hover:bg-[#0FF7D0] sm:px-4 sm:text-[11px] sm:tracking-[0.2em]"
         >
           Buy now
         </a>
