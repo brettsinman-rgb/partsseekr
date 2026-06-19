@@ -30,6 +30,8 @@ type GaragePreviewItem = {
   imageUrl?: string | null;
 };
 
+const HOME_HISTORY_LIMIT = 6;
+
 async function getGaragePreview(userId?: string): Promise<GaragePreviewItem[]> {
   if (!userId) return [];
 
@@ -85,7 +87,7 @@ async function getPreviousSearches(): Promise<PreviousSearchItem[]> {
     const dbSessions = await prisma.searchSession.findMany({
       where: whereClause,
       orderBy: { createdAt: 'desc' },
-      take: 5,
+      take: HOME_HISTORY_LIMIT,
       include: {
         clicks: {
           take: 1,
@@ -140,7 +142,7 @@ async function getPreviousSearches(): Promise<PreviousSearchItem[]> {
       )
       .filter((item): item is PreviousSearchItem => Boolean(item));
 
-    const devItems = getLatestDevSessions(5)
+    const devItems = getLatestDevSessions(HOME_HISTORY_LIMIT)
       .filter((session) => session.status === 'complete')
       .map((session) => {
         const topResult = [...session.results]
@@ -159,9 +161,9 @@ async function getPreviousSearches(): Promise<PreviousSearchItem[]> {
 
     return [...dbItems, ...devItems]
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .slice(0, 5);
+      .slice(0, HOME_HISTORY_LIMIT);
   } catch {
-    return getLatestDevSessions(5)
+    return getLatestDevSessions(HOME_HISTORY_LIMIT)
       .filter((session) => session.status === 'complete')
       .map((session) => {
         const topResult = [...session.results]
@@ -177,7 +179,7 @@ async function getPreviousSearches(): Promise<PreviousSearchItem[]> {
         };
       })
       .filter((item): item is PreviousSearchItem => Boolean(item))
-      .slice(0, 5);
+      .slice(0, HOME_HISTORY_LIMIT);
   }
 }
 
@@ -275,10 +277,10 @@ export default async function Home() {
                 </div>
               </div>
               <div className="grid min-w-0 grid-cols-2 gap-3 max-[339px]:grid-cols-1 md:grid-cols-3 md:gap-4 lg:grid-cols-5">
-                {previousSearches.map((item) => (
+                {previousSearches.map((item, index) => (
                   <article
                     key={item.id}
-                    className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#0FF7D0] bg-white transition hover:-translate-y-0.5 hover:shadow-[0_18px_45px_-34px_rgba(17,17,17,0.75)]"
+                    className={`flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-[#0FF7D0] bg-white transition hover:-translate-y-0.5 hover:shadow-[0_18px_45px_-34px_rgba(17,17,17,0.75)] ${index === 5 ? 'lg:hidden' : ''}`}
                   >
                     <div className="relative h-24 w-full bg-white max-[339px]:h-36 sm:h-32">
                       <Image
