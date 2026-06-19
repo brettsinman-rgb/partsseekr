@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { normalizeCandidates, scoreAutomotiveRelevance } from './lib/normalize';
+import { cleanEbayOutboundUrl } from './lib/providers/ebay';
 import { buildSearchQueryPlan } from './lib/search-query';
 import type { ProviderCandidate } from './lib/providers/types';
 
@@ -18,6 +19,19 @@ const partNumberPlan = buildSearchQueryPlan(partNumberQuery);
 assert.equal(partNumberPlan.kind, 'partNumber');
 assert.deepEqual(partNumberPlan.partNumbers, [partNumberQuery]);
 assert.ok(partNumberPlan.variants.includes(partNumberQuery));
+
+const messyEbayAffiliateUrl = 'https://www.ebay.com.au/itm/406960509431?_skw=5WA615301J+-shoe+-sneaker&hash=item123&mkevt=1&mkcid=1&mkrid=705-53470-19255-0&campid=5339147473&customid=partseekr-001&toolid=10049';
+const cleanEbayAffiliateUrl = cleanEbayOutboundUrl(messyEbayAffiliateUrl);
+const cleanEbayParsed = new URL(cleanEbayAffiliateUrl);
+assert.equal(cleanEbayParsed.searchParams.has('_skw'), false);
+assert.equal(cleanEbayParsed.searchParams.get('hash'), 'item123');
+assert.equal(cleanEbayParsed.searchParams.get('mkevt'), '1');
+assert.equal(cleanEbayParsed.searchParams.get('mkcid'), '1');
+assert.equal(cleanEbayParsed.searchParams.get('mkrid'), '705-53470-19255-0');
+assert.equal(cleanEbayParsed.searchParams.get('campid'), '5339147473');
+assert.equal(cleanEbayParsed.searchParams.get('customid'), 'partseekr-001');
+assert.equal(cleanEbayParsed.searchParams.get('toolid'), '10049');
+assert.equal(cleanEbayOutboundUrl('not a url'), 'not a url');
 
 const vagOemQueries = [
   'VAG 5Q0 919 051 BK',

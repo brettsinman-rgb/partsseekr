@@ -119,6 +119,18 @@ async function searchByMarketplace(query: string, marketplaceId: string, token: 
   return items.map((item, idx) => normalizeItem(item, marketplaceId, idx)).filter(Boolean) as ProviderCandidate[];
 }
 
+export function cleanEbayOutboundUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.toLowerCase().includes('ebay')) {
+      parsed.searchParams.delete('_skw');
+    }
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
 function normalizeItem(item: EbayItemSummary, marketplaceId: string, index: number): ProviderCandidate | null {
   const imageUrl = item.image?.imageUrl || item.thumbnailImages?.[0]?.imageUrl || '';
   const priceValue = item.price?.value ? Number(item.price.value) : undefined;
@@ -127,7 +139,8 @@ function normalizeItem(item: EbayItemSummary, marketplaceId: string, index: numb
   const shippingCurrency = item.shippingOptions?.[0]?.shippingCost?.currency;
   const shippingValue = shippingCost ? Number(shippingCost) : undefined;
 
-  const productUrl = item.itemAffiliateWebUrl || item.itemWebUrl || item.itemHref || undefined;
+  const rawProductUrl = item.itemAffiliateWebUrl || item.itemWebUrl || item.itemHref || undefined;
+  const productUrl = rawProductUrl ? cleanEbayOutboundUrl(rawProductUrl) : undefined;
 
   if (!item.title || !imageUrl || !priceValue || !currency || !productUrl) return null;
 
