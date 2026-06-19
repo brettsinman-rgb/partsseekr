@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Analytics } from '@vercel/analytics/next';
 import PriceAlertNotifications from '@/app/components/PriceAlertNotifications';
 
@@ -39,6 +40,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </footer>
         <PriceAlertNotifications />
         <Analytics />
+        <GoogleAnalytics
+          gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-LLHSDHHTPB'}
+        />
       </body>
     </html>
   );
