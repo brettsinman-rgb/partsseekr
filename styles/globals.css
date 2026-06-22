@@ -114,6 +114,65 @@ h4 {
   animation-delay: 240ms;
 }
 
+@keyframes aiSparkle {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: translateY(1px) scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.1);
+  }
+}
+
+.ai-sparkles {
+  display: flex;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 2px;
+  color: #0FF7D0;
+}
+
+.ai-sparkle {
+  display: block;
+  flex: none;
+  fill: currentColor;
+  transform-origin: center;
+  animation: aiSparkle 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px rgba(15, 247, 208, 0.22));
+}
+
+.ai-sparkle-small {
+  width: 8px;
+  height: 8px;
+  animation-delay: -1.4s;
+}
+
+.ai-sparkle-medium {
+  width: 10px;
+  height: 10px;
+  animation-delay: -0.6s;
+  animation-duration: 3.2s;
+}
+
+.ai-sparkle-large {
+  width: 14px;
+  height: 14px;
+  animation-delay: -2.1s;
+  animation-duration: 3.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-sparkle {
+    animation: none;
+    opacity: 0.82;
+    transform: none;
+  }
+}
+
 @keyframes pulseGlow {
   0% {
     box-shadow: 0 0 0 0 rgba(255, 234, 36, 0.35), 0 0 24px rgba(255, 234, 36, 0.15);

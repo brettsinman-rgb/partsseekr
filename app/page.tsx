@@ -216,9 +216,22 @@ export default async function Home() {
               <p className="max-w-3xl text-[18px] font-medium leading-[1.22] text-[#262626] sm:text-2xl md:text-[30px]">
                 Parts Seekr discovers the best pricing instantly.
               </p>
-              <p className="max-w-2xl text-sm font-normal leading-6 text-[#262626]/70 md:text-[15px]">
-                Search by part name, OEM number, or vehicle description. <span className="font-bold text-[#0FF7D0]">Parts Seekr</span> scans verified listings and sorts the best prices by value.
-              </p>
+              <div className="max-w-2xl">
+                <div className="ai-sparkles" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" className="ai-sparkle ai-sparkle-small">
+                    <path d="M12 1.5c.65 6.42 4.08 9.85 10.5 10.5-6.42.65-9.85 4.08-10.5 10.5C11.35 16.08 7.92 12.65 1.5 12 7.92 11.35 11.35 7.92 12 1.5Z" />
+                  </svg>
+                  <svg viewBox="0 0 24 24" className="ai-sparkle ai-sparkle-large">
+                    <path d="M12 1.5c.65 6.42 4.08 9.85 10.5 10.5-6.42.65-9.85 4.08-10.5 10.5C11.35 16.08 7.92 12.65 1.5 12 7.92 11.35 11.35 7.92 12 1.5Z" />
+                  </svg>
+                  <svg viewBox="0 0 24 24" className="ai-sparkle ai-sparkle-medium">
+                    <path d="M12 1.5c.65 6.42 4.08 9.85 10.5 10.5-6.42.65-9.85 4.08-10.5 10.5C11.35 16.08 7.92 12.65 1.5 12 7.92 11.35 11.35 7.92 12 1.5Z" />
+                  </svg>
+                </div>
+                <p className="text-sm font-normal leading-6 text-[#262626]/70 md:text-[15px]">
+                  Just tell <span className="font-bold text-[#0FF7D0]">AI Parts Seekr</span> what you&apos;re looking for. Our AI understands and starts searching verified listings and sorts the best prices by value.
+                </p>
+              </div>
             </div>
             <div className="relative mt-6">
               <UploadCapture />
